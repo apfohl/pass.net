@@ -5,9 +5,9 @@ using Avalonia.Markup.Xaml;
 
 namespace Pass.Views
 {
-    public sealed class MainWindow : Window
+    public sealed class MainView : Window
     {
-        public MainWindow()
+        public MainView()
         {
             AvaloniaXamlLoader.Load(this);
             

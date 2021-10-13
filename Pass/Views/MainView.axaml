@@ -2,11 +2,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:viewModels="clr-namespace:Pass.ViewModels"
-        d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel, IsDesignTimeCreatable=False}"
+        xmlns:vm="clr-namespace:Pass.ViewModels"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="Pass.Views.MainWindow"
+        x:Class="Pass.Views.MainView"
         Icon="/Assets/avalonia-logo.ico"
         Title="Pass">
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <Design.DataContext>
+        <vm:MainViewModel />
+    </Design.DataContext>
+
+    <TextBlock Text="{Binding Greeting}"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center" />
 </Window>

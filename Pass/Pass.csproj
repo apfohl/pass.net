@@ -13,5 +13,6 @@
         <PackageReference Include="Avalonia.Diagnostics" Version="0.10.8" />
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
         <PackageReference Include="bridgefield.MonadicBits" Version="0.3.0" />
+        <PackageReference Include="JetBrains.Annotations" Version="2021.2.0" />
     </ItemGroup>
 </Project>
