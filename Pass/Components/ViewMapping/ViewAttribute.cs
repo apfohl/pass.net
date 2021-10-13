@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pass.ViewMapping
+namespace Pass.Components.ViewMapping
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
     internal sealed class ViewAttribute : Attribute

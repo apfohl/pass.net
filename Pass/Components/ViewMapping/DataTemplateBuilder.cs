@@ -1,7 +1,7 @@
 ﻿using System;
 using Avalonia.Controls;
 
-namespace Pass.ViewMapping
+namespace Pass.Components.ViewMapping
 {
     public static class DataTemplateBuilder
     {

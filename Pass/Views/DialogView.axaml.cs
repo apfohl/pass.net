@@ -1,16 +1,16 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
 namespace Pass.Views
 {
-    public sealed class MainView : Window
+    public class DialogView : Window
     {
-        public MainView()
+        public DialogView()
         {
             AvaloniaXamlLoader.Load(this);
-            AttachDeveloperTools();
+            this.AttachDevTools();
         }
 
         [Conditional("DEBUG")]

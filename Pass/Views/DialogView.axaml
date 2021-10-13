@@ -1,0 +1,34 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:dialog="clr-namespace:Pass.Components.Dialog"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance dialog:IDialog, IsDesignTimeCreatable=False}"
+        x:Class="Pass.Views.DialogView"
+        WindowStartupLocation="CenterScreen"
+        CanResize="False"
+        ShowInTaskbar="False"
+        SizeToContent="WidthAndHeight"
+        Title="{Binding Title}"
+        MinWidth="{Binding MinWidth}"
+        MinHeight="{Binding MinHeight}">
+        <Grid RowDefinitions="*,Auto">
+                <Border Grid.Row="0" Padding="10">
+                        <ContentControl Content="{Binding Content}" />
+                </Border>
+
+                <!-- <ItemsControl Grid.Row="1" Items="{Binding Buttons}" Padding="10"> -->
+                <!--         <ItemsControl.ItemTemplate> -->
+                <!--                 <DataTemplate> -->
+                <!--                         <button:ButtonView DataContext="{Binding}" /> -->
+                <!--                 </DataTemplate> -->
+                <!--         </ItemsControl.ItemTemplate> -->
+                <!--         <ItemsControl.ItemsPanel> -->
+                <!--                 <ItemsPanelTemplate> -->
+                <!--                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" /> -->
+                <!--                 </ItemsPanelTemplate> -->
+                <!--         </ItemsControl.ItemsPanel> -->
+                <!-- </ItemsControl> -->
+        </Grid>
+</Window>

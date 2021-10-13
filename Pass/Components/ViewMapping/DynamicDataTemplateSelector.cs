@@ -3,9 +3,8 @@ using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using MonadicBits;
-using Pass.Components;
 
-namespace Pass.ViewMapping
+namespace Pass.Components.ViewMapping
 {
     public sealed class DynamicDataTemplateSelector : IDataTemplate
     {
@@ -23,6 +22,6 @@ namespace Pass.ViewMapping
                     .GetCustomAttributes(typeof(ViewAttribute), true)
                     .OfType<ViewAttribute>()
                     .ToArray()
-                    .SingleOrNothing());
+                    .FirstOrNothing());
     }
 }

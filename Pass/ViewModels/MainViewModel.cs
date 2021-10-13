@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Reactive.Linq;
 using Pass.Components.Binding;
-using Pass.ViewMapping;
+using Pass.Components.Dialog;
+using Pass.Components.ViewMapping;
 using Pass.Views;
 
 namespace Pass.ViewModels
@@ -9,6 +10,7 @@ namespace Pass.ViewModels
     [View(typeof(MainView))]
     public sealed class MainViewModel : Bindable, IDisposable
     {
+        private readonly IDialogPresenter dialogPresenter;
         private readonly ReactiveProperty<string> greeting = new("Welcome to Avalonia!");
         private readonly IDisposable subscription;
 
@@ -18,8 +20,11 @@ namespace Pass.ViewModels
             set => greeting.Value = value;
         }
 
-        public MainViewModel() =>
+        public MainViewModel(IDialogPresenter dialogPresenter)
+        {
+            this.dialogPresenter = dialogPresenter;
             subscription = greeting.Changed.Select(_ => nameof(Greeting)).Subscribe(OnPropertyChanged);
+        }
 
         public void Dispose() => subscription.Dispose();
     }

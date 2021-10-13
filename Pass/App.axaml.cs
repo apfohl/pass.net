@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Pass.Components.Dialog;
 using Pass.ViewModels;
 using Pass.Views;
 
@@ -14,10 +15,10 @@ namespace Pass
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new MainView
-                {
-                    DataContext = new MainViewModel(),
-                };
+                var mainWindow = new MainView();
+                desktop.MainWindow = mainWindow;
+                mainWindow.DataContext = new MainViewModel(new DefaultDialogPresenter(mainWindow));
+                
             }
 
             base.OnFrameworkInitializationCompleted();
