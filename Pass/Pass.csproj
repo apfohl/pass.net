@@ -2,10 +2,9 @@
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <TargetFramework>net5.0</TargetFramework>
-        <Nullable>enable</Nullable>
+        <Nullable>disable</Nullable>
     </PropertyGroup>
     <ItemGroup>
-        <Folder Include="Models\" />
         <AvaloniaResource Include="Assets\**" />
     </ItemGroup>
     <ItemGroup>
@@ -13,7 +12,6 @@
         <PackageReference Include="Avalonia.Desktop" Version="0.10.8" />
         <PackageReference Include="Avalonia.Diagnostics" Version="0.10.8" />
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-        <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.8" />
         <PackageReference Include="bridgefield.MonadicBits" Version="0.3.0" />
     </ItemGroup>
 </Project>

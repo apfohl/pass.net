@@ -1,11 +1,12 @@
-﻿using Pass.ViewMapping;
+﻿using Pass.Components.Binding;
+using Pass.ViewMapping;
 using Pass.Views;
 
 namespace Pass.ViewModels
 {
     [View(typeof(MainWindow))]
-    public sealed class MainWindowViewModel : ViewModelBase
+    public sealed class MainWindowViewModel : Bindable
     {
-        public string Greeting => "Welcome to Avalonia!";
+        public static string Greeting => "Welcome to Avalonia!";
     }
 }
