@@ -1,9 +1,9 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:viewMapping1="clr-namespace:Pass.Components.ViewMapping"
+             xmlns:viewMapping="clr-namespace:Pass.Components.ViewMapping"
              x:Class="Pass.App">
     <Application.DataTemplates>
-        <viewMapping1:DynamicDataTemplateSelector />
+        <viewMapping:DynamicDataTemplateSelector />
     </Application.DataTemplates>
 
     <Application.Styles>

@@ -6,6 +6,7 @@
         <entry key="Pass/App.axaml" value="Pass/Pass.csproj" />
         <entry key="Pass/Views/DialogView.axaml" value="Pass/Pass.csproj" />
         <entry key="Pass/Views/MainView.axaml" value="Pass/Pass.csproj" />
+        <entry key="Pass/Views/TextView.axaml" value="Pass/Pass.csproj" />
       </map>
     </option>
   </component>

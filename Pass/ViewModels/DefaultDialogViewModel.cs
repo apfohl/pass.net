@@ -9,15 +9,15 @@ using Pass.Views;
 namespace Pass.ViewModels
 {
     [View(typeof(DialogView))]
-    public sealed class DefaultDialog: Bindable, IDialog
+    public sealed class DefaultDialogViewModel : Bindable, IDialog
     {
         public string Title => "Default Dialog";
-        public double MinWidth => 600;
-        public double MinHeight => 400;
+        public double MinWidth => 500;
+        public double MinHeight => 300;
         public Bindable Content { get; }
         public IEnumerable<object> Buttons => Enumerable.Empty<object>();
         public event EventHandler Closed;
 
-        public DefaultDialog(Bindable content) => Content = content;
+        public DefaultDialogViewModel(Bindable content) => Content = content;
     }
 }

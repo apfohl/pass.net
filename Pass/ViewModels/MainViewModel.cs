@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Reactive.Linq;
+using System.Windows.Input;
 using Pass.Components.Binding;
+using Pass.Components.Commands;
 using Pass.Components.Dialog;
 using Pass.Components.ViewMapping;
 using Pass.Views;
@@ -19,6 +21,11 @@ namespace Pass.ViewModels
             get => greeting.Value;
             set => greeting.Value = value;
         }
+
+        public ICommand OpenDialog =>
+            new RelayCommand(
+                () => dialogPresenter.Show(new DefaultDialogViewModel(new TextViewModel("This is inside the dialog."))),
+                () => true);
 
         public MainViewModel(IDialogPresenter dialogPresenter)
         {

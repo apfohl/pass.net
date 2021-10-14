@@ -1,19 +1,8 @@
-﻿using System;
-using Avalonia;
-using JetBrains.Annotations;
+﻿using Avalonia;
+using Pass;
 
-namespace Pass
-{
-    public static class Program
-    {
-        [STAThread]
-        public static void Main(string[] args) => BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
-        
-        [UsedImplicitly]
-        public static AppBuilder BuildAvaloniaApp() =>
-            AppBuilder
-                .Configure<App>()
-                .UsePlatformDetect()
-                .LogToTrace();
-    }
-}
+AppBuilder
+    .Configure<App>()
+    .UsePlatformDetect()
+    .LogToTrace()
+    .StartWithClassicDesktopLifetime(args);

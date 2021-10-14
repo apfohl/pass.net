@@ -5,12 +5,12 @@ using Avalonia.Markup.Xaml;
 
 namespace Pass.Views
 {
-    public class DialogView : Window
+    public sealed class DialogView : Window
     {
         public DialogView()
         {
             AvaloniaXamlLoader.Load(this);
-            this.AttachDevTools();
+            AttachDeveloperTools();
         }
 
         [Conditional("DEBUG")]

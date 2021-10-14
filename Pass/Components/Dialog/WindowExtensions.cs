@@ -11,11 +11,5 @@ namespace Pass.Components.Dialog
             onShowDialog(window);
             return window.ShowDialog(parent);
         }
-
-        public static void Show(this Window window, Window parent, Action<Window> onShowDialog)
-        {
-            onShowDialog(window);
-            window.Show(parent);
-        }
     }
 }
