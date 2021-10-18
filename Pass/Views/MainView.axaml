@@ -9,24 +9,39 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="Pass"
         WindowStartupLocation="CenterScreen"
-        Width="600"
-        Height="400"
+        Width="800"
+        Height="600"
         CanResize="True">
     <Grid ColumnDefinitions="Auto,*">
-        <ListBox Grid.Column="0"
-                 ScrollViewer.VerticalScrollBarVisibility="Auto"
-                 Items="{Binding Passwords}"
-                 MinWidth="150">
-            <ListBox.DataTemplates>
-                <DataTemplate DataType="{x:Type vm:PasswordViewModel}">
-                    <TextBlock Text="{Binding Name}" />
-                </DataTemplate>
-            </ListBox.DataTemplates>
-        </ListBox>
+        <Grid Grid.Column="0"
+              RowDefinitions="Auto,*">
+            <TextBox Grid.Row="0"
+                     Text="{Binding SearchString}"
+                     Margin="1, 1, 1, 1"
+                     Watermark="Search..." />
 
-        <Grid Grid.Column="1">
-            <TextBlock Text="{Binding Greeting}" />
-            <Button Command="{Binding OpenDialog}" Content="Open dialog" />
+            <ListBox Grid.Row="1"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     Items="{Binding Passwords}"
+                     SelectedItem="{Binding SelectedPassword}"
+                     Width="180">
+                <ListBox.DataTemplates>
+                    <DataTemplate DataType="{x:Type vm:PasswordViewModel}">
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ListBox.DataTemplates>
+            </ListBox>
+        </Grid>
+
+        <Grid Grid.Column="1"
+              RowDefinitions="Auto,Auto,Auto,*">
+            <TextBlock Grid.Row="0"
+                       Text="{Binding Greeting}" />
+            <TextBlock Grid.Row="1"
+                       Text="{Binding PasswordName}" />
+            <Button Grid.Row="2"
+                    Command="{Binding OpenDialog}"
+                    Content="Open dialog" />
         </Grid>
     </Grid>
 </Window>

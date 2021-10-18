@@ -1,6 +1,4 @@
-﻿using Bridgefield.PersistentBits.FileSystem;
-using Pass.Components.Binding;
-using Pass.Components.Extensions;
+﻿using Pass.Components.Binding;
 
 namespace Pass.ViewModels
 {
@@ -8,6 +6,6 @@ namespace Pass.ViewModels
     {
         public string Name { get; }
 
-        public PasswordViewModel(IFileSystemEntry file) => Name = file.Name.RemoveFromEnd(".gpg");
+        public PasswordViewModel(string name) => Name = name;
     }
 }

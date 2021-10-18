@@ -6,6 +6,7 @@ using System.Windows.Input;
 using Pass.Components.Binding;
 using Pass.Components.Commands;
 using Pass.Components.Dialog;
+using Pass.Components.Extensions;
 using Pass.Components.FileSystem;
 using Pass.Components.ViewMapping;
 using Pass.Views;
@@ -18,7 +19,9 @@ namespace Pass.ViewModels
         private readonly IDialogPresenter dialogPresenter;
         private readonly PasswordRepository passwordRepository;
         private readonly ReactiveProperty<string> greeting = new("Welcome to Avalonia!");
-        private readonly IDisposable subscription;
+        private readonly ReactiveProperty<string> searchString = new(string.Empty);
+        private readonly ReactiveProperty<PasswordViewModel> selectedPassword = new();
+        private readonly List<IDisposable> subscriptions = new();
 
         public string Greeting
         {
@@ -32,15 +35,42 @@ namespace Pass.ViewModels
                 () => true);
 
         public IEnumerable<PasswordViewModel> Passwords =>
-            passwordRepository.FindAll().Select(file => new PasswordViewModel(file)).ToList();
+            passwordRepository
+                .FindAll()
+                .OrderBy(file => file.Name)
+                .Select(file => file.Name.RemoveFromEnd(".gpg"))
+                .Where(file => ContainsString(file, SearchString))
+                .Select(name => new PasswordViewModel(name))
+                .ToList();
+
+        public PasswordViewModel SelectedPassword
+        {
+            get => selectedPassword.Value;
+            set => selectedPassword.Value = value;
+        }
+
+        public string SearchString
+        {
+            get => searchString.Value;
+            set => searchString.Value = value;
+        }
+
+        public string PasswordName =>
+            SelectedPassword != default(PasswordViewModel) ? SelectedPassword.Name : "No password selected!";
 
         public MainViewModel(IDialogPresenter dialogPresenter, PasswordRepository passwordRepository)
         {
             this.dialogPresenter = dialogPresenter;
             this.passwordRepository = passwordRepository;
-            subscription = greeting.Changed.Select(_ => nameof(Greeting)).Subscribe(OnPropertyChanged);
+
+            subscriptions.Add(greeting.Changed.Select(_ => nameof(Greeting)).Subscribe(OnPropertyChanged));
+            subscriptions.Add(searchString.Changed.Subscribe(_ => OnPropertyChanged(nameof(Passwords))));
+            subscriptions.Add(selectedPassword.Changed.Skip(1).Subscribe(_ => OnPropertyChanged(nameof(PasswordName))));
         }
 
-        public void Dispose() => subscription.Dispose();
+        public void Dispose() => subscriptions.ForEach(s => s.Dispose());
+
+        private static bool ContainsString(string @this, string searchString) =>
+            string.IsNullOrEmpty(searchString) || @this.Contains(searchString);
     }
 }
