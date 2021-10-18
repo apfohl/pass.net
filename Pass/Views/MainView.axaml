@@ -11,10 +11,22 @@
         WindowStartupLocation="CenterScreen"
         Width="600"
         Height="400"
-        CanResize="False">
-    <StackPanel HorizontalAlignment="Center"
-                VerticalAlignment="Center">
-        <TextBlock Text="{Binding Greeting}" />
-        <Button Command="{Binding OpenDialog}" Content="Open dialog" />
-    </StackPanel>
+        CanResize="True">
+    <Grid ColumnDefinitions="Auto,*">
+        <ListBox Grid.Column="0"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 Items="{Binding Passwords}"
+                 MinWidth="150">
+            <ListBox.DataTemplates>
+                <DataTemplate DataType="{x:Type vm:PasswordViewModel}">
+                    <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+            </ListBox.DataTemplates>
+        </ListBox>
+
+        <Grid Grid.Column="1">
+            <TextBlock Text="{Binding Greeting}" />
+            <Button Command="{Binding OpenDialog}" Content="Open dialog" />
+        </Grid>
+    </Grid>
 </Window>

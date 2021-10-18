@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using MonadicBits;
 
-namespace Pass.Components
+namespace Pass.Components.Threading
 {
     public static class Dispatcher
     {
