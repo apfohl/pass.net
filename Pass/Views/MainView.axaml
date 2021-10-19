@@ -6,7 +6,6 @@
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance vm:MainViewModel, IsDesignTimeCreatable=True}"
         x:Class="Pass.Views.MainView"
-        Icon="/Assets/avalonia-logo.ico"
         Title="Pass"
         WindowStartupLocation="CenterScreen"
         Width="800"
