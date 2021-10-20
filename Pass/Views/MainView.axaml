@@ -32,15 +32,8 @@
             </ListBox>
         </Grid>
 
-        <Grid Grid.Column="1"
-              RowDefinitions="Auto,Auto,Auto,*">
-            <TextBlock Grid.Row="0"
-                       Text="{Binding Greeting}" />
-            <TextBlock Grid.Row="1"
-                       Text="{Binding PasswordName}" />
-            <Button Grid.Row="2"
-                    Command="{Binding OpenDialog}"
-                    Content="Open dialog" />
+        <Grid Grid.Column="1">
+            <TextBlock Text="{Binding PasswordName}" />
         </Grid>
     </Grid>
 </Window>
