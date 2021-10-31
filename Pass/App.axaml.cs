@@ -21,7 +21,7 @@ namespace Pass
                 var fileSystem = OS.FileSystem();
                 var userProfilePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
                 var passwordDirectory = fileSystem
-                    .OpenDirectory(Path.Combine(userProfilePath, ".password-store", "decrypted"))
+                    .OpenDirectory(Path.Combine(userProfilePath, ".password-store"))
                     .Match(d => d, () => throw new ArgumentException("Pass directory is missing!"));
 
                 var mainWindow = new MainView();
