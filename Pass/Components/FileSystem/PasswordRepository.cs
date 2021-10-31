@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Bridgefield.PersistentBits.FileSystem;
 using MonadicBits;
@@ -10,12 +11,22 @@ namespace Pass.Components.FileSystem
     {
         private readonly IDirectory rootDirectory;
 
-        public PasswordRepository(IDirectory rootDirectory) => this.rootDirectory = rootDirectory;
+        public PasswordRepository(IDirectory rootDirectory) =>
+            this.rootDirectory = rootDirectory;
 
-        public Maybe<IFile> Find(string name) => FindAll().SingleOrNothing(file => file.Name == name);
+        public Maybe<IFile> Fingerprint() =>
+            rootDirectory.Files.SingleOrNothing(file => file.Name == ".gpg-id");
 
-        public IEnumerable<IFile> FindAll() => rootDirectory.Files.Where(IsPasswordFile);
+        public Maybe<IEncryptedFile> Find(string name) =>
+            FindAll().SingleOrNothing(file => file.Name == name);
 
-        private static bool IsPasswordFile(IFile file) => !file.Name.StartsWith('.') && file.Name.EndsWith(".gpg");
+        public IEnumerable<IEncryptedFile> FindAll() =>
+            Directory
+                .EnumerateFiles(rootDirectory.Path)
+                .Where(IsPasswordFile)
+                .Select(path => new EncryptedFile(path));
+
+        private static bool IsPasswordFile(string fileName) =>
+            !fileName.StartsWith('.') && fileName.EndsWith(".gpg");
     }
 }

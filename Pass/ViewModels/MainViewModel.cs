@@ -17,6 +17,8 @@ namespace Pass.ViewModels
         private readonly ReactiveProperty<string> searchString = new(string.Empty);
         private readonly ReactiveProperty<PasswordViewModel> selectedPassword = new();
         private readonly List<IDisposable> subscriptions = new();
+        
+        public Bindable Content { get; }
 
         public IEnumerable<PasswordViewModel> Passwords =>
             passwordRepository
@@ -48,6 +50,8 @@ namespace Pass.ViewModels
         {
             this.passwordRepository = passwordRepository;
 
+            Content = new ContentWithSidebarViewModel();
+            
             subscriptions.Add(searchString.Changed.Subscribe(_ => OnPropertyChanged(nameof(Passwords))));
             subscriptions.Add(selectedPassword.Changed.Skip(1).Subscribe(_ => OnPropertyChanged(nameof(PasswordName))));
         }
