@@ -3,7 +3,7 @@ using Avalonia.Markup.Xaml;
 
 namespace Pass.Views
 {
-    public class PasswordListView : UserControl
+    public sealed class PasswordListView : UserControl
     {
         public PasswordListView() => AvaloniaXamlLoader.Load(this);
     }
