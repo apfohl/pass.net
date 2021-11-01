@@ -7,7 +7,7 @@ using Pass.Views;
 namespace Pass.ViewModels
 {
     [View(typeof(TextView))]
-    public sealed class TextViewModel : Bindable, IDisposable
+    public sealed class TextViewModel : Bindable, IContent, IDisposable
     {
         private readonly ReactiveProperty<string> content;
         private readonly IDisposable subscription;
