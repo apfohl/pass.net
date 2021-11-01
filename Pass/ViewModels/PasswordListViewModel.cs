@@ -11,7 +11,7 @@ using Pass.Views;
 namespace Pass.ViewModels
 {
     [View(typeof(PasswordListView))]
-    public sealed class PasswordListViewModel : Bindable, IDisposable
+    public sealed class PasswordListViewModel : Bindable, ISidebar, IDisposable
     {
         private readonly PasswordRepository passwordRepository;
         private readonly ReactiveProperty<string> searchString = new(string.Empty);
