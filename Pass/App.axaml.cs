@@ -26,7 +26,7 @@ namespace Pass
 
                 var mainWindow = new MainView();
                 desktop.MainWindow = mainWindow;
-                mainWindow.DataContext = new MainViewModel(new PasswordRepository(passwordDirectory));
+                mainWindow.DataContext = new MainViewModel(passwordDirectory);
             }
 
             base.OnFrameworkInitializationCompleted();

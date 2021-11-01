@@ -11,29 +11,5 @@
         Width="800"
         Height="600"
         CanResize="True">
-    <Grid ColumnDefinitions="Auto,*">
-        <Grid Grid.Column="0"
-              RowDefinitions="Auto,*">
-            <TextBox Grid.Row="0"
-                     Text="{Binding SearchString}"
-                     Margin="1, 1, 1, 1"
-                     Watermark="Search..." />
-
-            <ListBox Grid.Row="1"
-                     ScrollViewer.VerticalScrollBarVisibility="Auto"
-                     Items="{Binding Passwords}"
-                     SelectedItem="{Binding SelectedPassword}"
-                     Width="180">
-                <ListBox.DataTemplates>
-                    <DataTemplate DataType="{x:Type vm:PasswordViewModel}">
-                        <TextBlock Text="{Binding Name}" />
-                    </DataTemplate>
-                </ListBox.DataTemplates>
-            </ListBox>
-        </Grid>
-
-        <Grid Grid.Column="1">
-            <TextBlock Text="{Binding PasswordName}" />
-        </Grid>
-    </Grid>
+    <ContentControl DataContext="{Binding Content}" />
 </Window>
