@@ -17,9 +17,9 @@ namespace Pass.Components.Async
                 {
                     try
                     {
-                        var result = await processor(state, t.command);
-                        state = result.newState;
-                        t.task.SetResult(result.reply);
+                        var (newState, reply) = await processor(state, t.command);
+                        state = newState;
+                        t.task.SetResult(reply);
                     }
                     catch (Exception e)
                     {

@@ -1,8 +1,11 @@
-﻿using Pass.Components.Binding;
+using Pass.Components.Binding;
+using Pass.Components.ViewMapping;
+using Pass.Views;
 
 namespace Pass.ViewModels
 {
-    public sealed class PasswordViewModel : Bindable
+    [View(typeof(PasswordView))]
+    public sealed class PasswordViewModel : Bindable, IContent
     {
         public string Name { get; }
 

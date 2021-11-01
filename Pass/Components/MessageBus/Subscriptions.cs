@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Reactive;
 using System.Reflection;
 using System.Threading.Tasks;
 using MonadicBits;
@@ -11,16 +12,8 @@ namespace Pass.Components.MessageBus
 
     public sealed record SubscriberMethod(MethodInfo Method, Type ArgumentType)
     {
-        public Maybe<object> Invoke(object target, object argument)
-        {
-            var result = Method.Invoke(target, new[] { argument });
-            if (result != null)
-            {
-                return result;
-            }
-
-            return Nothing;
-        }
+        public Maybe<object> Invoke(object target, object argument) =>
+            Method.Invoke(target, new[] { argument }) ?? Nothing;
     }
 
     public sealed record Handler(object Target, SubscriberMethod Method)
@@ -79,8 +72,9 @@ namespace Pass.Components.MessageBus
         public void Unsubscribe(object subscriber) =>
             agent.Tell(new UnsubscribeTarget(subscriber));
 
-        public async Task Publish(object argument) =>
-            Task.WaitAll(
+        public async Task<Unit> Publish(object argument)
+        {
+            await Task.WhenAll(
                 (await agent.Tell(new SelectSubscriptions(argument.GetType())))
                 .Select(s => s.Handler(argument.GetType())
                     .Match(
@@ -88,6 +82,9 @@ namespace Pass.Components.MessageBus
                         () => agent.Tell(new RemoveSubscription(s))))
                 .ToArray()
             );
+            
+            return Unit.Default;
+        }
 
         private abstract record SubscriptionCommand
         {

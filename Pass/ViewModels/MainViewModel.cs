@@ -1,6 +1,7 @@
 ﻿using Bridgefield.PersistentBits.FileSystem;
 using Pass.Components.Binding;
 using Pass.Components.FileSystem;
+using Pass.Components.MessageBus;
 using Pass.Components.ViewMapping;
 using Pass.Views;
 
@@ -11,9 +12,10 @@ namespace Pass.ViewModels
     {
         public Bindable Content { get; }
 
-        public MainViewModel(IDirectory passwordDirectory) =>
+        public MainViewModel(MessageBus messageBus, IDirectory passwordDirectory) =>
             Content = new ContentWithSidebarViewModel(
                 null,
-                new PasswordListViewModel(new PasswordRepository(passwordDirectory)));
+                new PasswordListViewModel(new PasswordRepository(passwordDirectory), messageBus),
+                messageBus);
     }
 }

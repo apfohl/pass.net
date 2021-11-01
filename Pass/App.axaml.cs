@@ -4,9 +4,8 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Bridgefield.PersistentBits;
-using Org.BouncyCastle.Crypto.Digests;
 using Pass.Components.Encryption;
-using Pass.Components.FileSystem;
+using Pass.Components.MessageBus;
 using Pass.ViewModels;
 using Pass.Views;
 
@@ -26,10 +25,11 @@ namespace Pass
                     .OpenDirectory(Path.Combine(userProfilePath, ".password-store"))
                     .Match(d => d, () => throw new ArgumentException("Pass directory is missing!"));
                 var keyRepository = new KeyRepository();
+                var messageBus = new MessageBus();
                 
                 var mainWindow = new MainView();
                 desktop.MainWindow = mainWindow;
-                mainWindow.DataContext = new MainViewModel(passwordDirectory);
+                mainWindow.DataContext = new MainViewModel(messageBus, passwordDirectory);
             }
 
             base.OnFrameworkInitializationCompleted();
