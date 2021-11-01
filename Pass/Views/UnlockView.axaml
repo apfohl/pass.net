@@ -6,8 +6,17 @@
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance vm:UnlockViewModel, IsDesignTimeCreatable=True}"
              x:Class="Pass.Views.UnlockView">
-    <StackPanel>
-        <TextBox PasswordChar="*" Text="{Binding Password}" />
-        <Button Content="Unlock" Command="{Binding Unlock}" />
-    </StackPanel>
+    <Grid ColumnDefinitions="*,10,Auto"
+          VerticalAlignment="Center"
+          HorizontalAlignment="Stretch"
+          Margin="10 0 10 0">
+        <TextBox Grid.Column="0"
+                 PasswordChar="*"
+                 Text="{Binding Password}"
+                 Watermark="PGP private key passphrase..." />
+        <Button Grid.Column="2"
+                Content="Unlock"
+                Command="{Binding Unlock}"
+                IsDefault="True" />
+    </Grid>
 </UserControl>
