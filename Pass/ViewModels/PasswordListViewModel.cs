@@ -73,7 +73,8 @@ namespace Pass.ViewModels
         {
             var stream = from file in passwordRepository.Find($"{name}.gpg")
                 from keyStream in keyRepository.PrivateKey.Bind(keyFile => keyFile.OpenRead())
-                from decryptedStream in DecryptedStream(file, keyStream, "Test")
+                from password in keyRepository.Password
+                from decryptedStream in DecryptedStream(file, keyStream, password)
                 select decryptedStream;
 
             return stream.BindAsync(async s =>
