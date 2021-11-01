@@ -11,5 +11,5 @@
         Width="800"
         Height="600"
         CanResize="True">
-    <ContentControl DataContext="{Binding Content}" />
+    <ContentControl Content="{Binding Content}" />
 </Window>
