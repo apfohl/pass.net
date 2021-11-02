@@ -13,6 +13,7 @@ using Pass.Components.Extensions;
 using Pass.Components.FileSystem;
 using Pass.Components.MessageBus;
 using Pass.Components.ViewMapping;
+using Pass.Models;
 using Pass.Views;
 
 namespace Pass.ViewModels
@@ -51,7 +52,7 @@ namespace Pass.ViewModels
         }
 
         public ICommand Lock => new RelayCommand(() => messageBus.Publish(new Locked()), () => true);
-        
+
         public PasswordListViewModel(PasswordRepository passwordRepository, MessageBus messageBus,
             KeyRepository keyRepository)
         {
@@ -100,5 +101,14 @@ namespace Pass.ViewModels
                 return file.OpenRead(keyStream, password);
             }
         }
+
+        private static async Task<Maybe<Password>> Password(Stream stream)
+        {
+            using var streamReader = new StreamReader(stream);
+            
+        }
+
+        private static async Task<Maybe<string>> ReadPassword(TextReader streamReader) =>
+            (await streamReader.ReadLineAsync()).ToMaybe();
     }
 }
