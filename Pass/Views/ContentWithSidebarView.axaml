@@ -7,7 +7,10 @@
              d:DataContext="{d:DesignInstance vm:ContentWithSidebarViewModel, IsDesignTimeCreatable=False}"
              x:Class="Pass.Views.ContentWithSidebarView">
     <Grid ColumnDefinitions="Auto,*">
-        <ContentControl Grid.Column="0" Content="{Binding Sidebar}" />
-        <ContentControl Grid.Column="1" Content="{Binding Content}" />
+        <ContentControl Grid.Column="0"
+                        Content="{Binding Sidebar}" />
+        <ContentControl Grid.Column="1"
+                        Content="{Binding Content}"
+                        Padding="15" />
     </Grid>
 </UserControl>
