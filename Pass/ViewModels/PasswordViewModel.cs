@@ -32,6 +32,9 @@ namespace Pass.ViewModels
             return Task.CompletedTask;
         }, () => true);
 
+        public ICommand CopyToClipboard =>
+            new RelayCommand(() => Application.Current.Clipboard.SetTextAsync(password), () => true);
+
         public PasswordViewModel(string name, string password)
         {
             Name = name;
