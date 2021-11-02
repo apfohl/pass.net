@@ -5,7 +5,7 @@ using Pass.Views;
 namespace Pass.ViewModels
 {
     [View(typeof(PasswordView))]
-    public sealed class PasswordViewModel : Bindable, IContent
+    public sealed class PasswordViewModel : Bindable
     {
         public string Name { get; }
         public string Password { get; }

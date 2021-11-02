@@ -4,8 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using MonadicBits;
 using Pass.Components.Binding;
+using Pass.Components.Commands;
 using Pass.Components.Encryption;
 using Pass.Components.Extensions;
 using Pass.Components.FileSystem;
@@ -15,12 +17,13 @@ using Pass.Views;
 
 namespace Pass.ViewModels
 {
-    public record SelectedPasswordChanged(IContent ViewModel);
+    public record SelectedPasswordChanged(Bindable ViewModel);
 
     [View(typeof(PasswordListView))]
-    public sealed class PasswordListViewModel : Bindable, ISidebar, IDisposable
+    public sealed class PasswordListViewModel : Bindable, IDisposable
     {
         private readonly PasswordRepository passwordRepository;
+        private readonly MessageBus messageBus;
         private readonly KeyRepository keyRepository;
         private readonly ReactiveProperty<string> searchString = new(string.Empty);
         private readonly ReactiveProperty<PasswordListItemViewModel> selectedPassword = new();
@@ -47,10 +50,13 @@ namespace Pass.ViewModels
             set => searchString.Value = value;
         }
 
+        public ICommand Lock => new RelayCommand(() => messageBus.Publish(new Locked()), () => true);
+        
         public PasswordListViewModel(PasswordRepository passwordRepository, MessageBus messageBus,
             KeyRepository keyRepository)
         {
             this.passwordRepository = passwordRepository;
+            this.messageBus = messageBus;
             this.keyRepository = keyRepository;
 
             subscriptions.Add(searchString.Changed.Subscribe(_ => OnPropertyChanged(nameof(Passwords))));

@@ -16,10 +16,11 @@ using Pass.Views;
 namespace Pass
 {
     using static Functional;
-    
+
     public sealed class App : Application
     {
-        private static readonly string UserProfilePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        private static readonly string UserProfilePath =
+            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
         public override void Initialize() => AvaloniaXamlLoader.Load(this);
 
@@ -47,11 +48,12 @@ namespace Pass
             var directory = fileSystem.OpenDirectory(Path.Combine(UserProfilePath, "Documents"))
                 .Match(d => d, () => throw new ArgumentException("Key directory is missing!"));
 
-            return new KeyRepository(
-                directory.Files.Where(file => file.Name == "private.asc").SingleOrNothing(),
-                directory.Files.Where(file => file.Name == "public.asc").SingleOrNothing(),
-                Nothing
-            );
+            return new KeyRepository
+            {
+                PrivateKey = directory.Files.Where(file => file.Name == "private.asc").SingleOrNothing(),
+                PublicKey = directory.Files.Where(file => file.Name == "public.asc").SingleOrNothing(),
+                Password = Nothing
+            };
         }
     }
 }
