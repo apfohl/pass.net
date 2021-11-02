@@ -18,7 +18,7 @@ namespace Pass.ViewModels
 
         public string Name { get; }
 
-        public string Password => isHidden ? "******" : password;
+        public string Password => isHidden ? "●●●●●●" : password;
 
         public Geometry ButtonIcon => isHidden
             ? Resource<Geometry>("EyeHideRegular")

@@ -11,7 +11,7 @@
           HorizontalAlignment="Stretch"
           Margin="10 0 10 0">
         <TextBox Grid.Column="0"
-                 PasswordChar="*"
+                 PasswordChar="●"
                  Text="{Binding Password}"
                  Watermark="PGP private key passphrase..." />
         
