@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MonadicBits;
@@ -61,13 +62,12 @@ namespace Pass.ViewModels
             this.keyRepository = keyRepository;
 
             subscriptions.Add(searchString.Changed.Subscribe(_ => OnPropertyChanged(nameof(Passwords))));
-            subscriptions.Add(selectedPassword.Skip(1).Where(p => p != null).SelectMany(async p =>
-                {
-                    var password = await DecryptedPassword(p.Name);
-
-                    return await messageBus.Publish(new SelectedPasswordChanged(new PasswordViewModel(p.Name,
-                        password.Match(pass => pass, () => "Not found!"))));
-                })
+            subscriptions.Add(selectedPassword.Skip(1).Where(p => p != null)
+                .SelectMany(async p => (await DecryptedPassword(p.Name))
+                    .Match(
+                        async password =>
+                            await messageBus.Publish(new SelectedPasswordChanged(new PasswordViewModel(password))),
+                        () => Task.CompletedTask))
                 .Subscribe());
         }
 
@@ -76,7 +76,7 @@ namespace Pass.ViewModels
         private static bool ContainsString(string @this, string searchString) =>
             string.IsNullOrEmpty(searchString) || @this.Contains(searchString);
 
-        private Task<Maybe<string>> DecryptedPassword(string name)
+        private Task<Maybe<Password>> DecryptedPassword(string name)
         {
             var stream = from file in passwordRepository.Find($"{name}.gpg")
                 from keyStream in keyRepository.PrivateKey.Bind(keyFile => keyFile.OpenRead())
@@ -88,8 +88,7 @@ namespace Pass.ViewModels
             {
                 await using (s)
                 {
-                    using var streamReader = new StreamReader(s);
-                    return (await streamReader.ReadLineAsync()).ToMaybe();
+                    return await Password(name, s);
                 }
             });
         }
@@ -102,13 +101,40 @@ namespace Pass.ViewModels
             }
         }
 
-        private static async Task<Maybe<Password>> Password(Stream stream)
+        private static async Task<Maybe<Password>> Password(string name, Stream stream)
         {
-            using var streamReader = new StreamReader(stream);
-            
+            using var reader = new StreamReader(stream);
+
+            return await (await ReadPassword(reader))
+                .MapAsync(async password =>
+                {
+                    var metadata = await ReadLines(reader).AggregateAsync(new Dictionary<string, string>(),
+                        (dictionary, line) =>
+                        {
+                            ParseLine(line).Match(tuple => dictionary.Add(tuple.key, tuple.value), () => { });
+                            return dictionary;
+                        });
+
+                    return new Password(name, password, metadata);
+                });
         }
 
-        private static async Task<Maybe<string>> ReadPassword(TextReader streamReader) =>
-            (await streamReader.ReadLineAsync()).ToMaybe();
+        private static Maybe<(string key, string value)> ParseLine(string line) =>
+            new Regex("^(.+):(.+)$")
+                .MatchInput(line)
+                .Map(match => match.Groups)
+                .Map(groups => (groups[1].Value, groups[2].Value));
+
+        private static async Task<Maybe<string>> ReadPassword(TextReader reader) =>
+            (await reader.ReadLineAsync()).ToMaybe();
+
+        private static async IAsyncEnumerable<string> ReadLines(TextReader reader)
+        {
+            string line;
+            while ((line = await reader.ReadLineAsync()) != null)
+            {
+                yield return line;
+            }
+        }
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia;
@@ -6,6 +7,7 @@ using Avalonia.Media;
 using Pass.Components.Binding;
 using Pass.Components.Commands;
 using Pass.Components.ViewMapping;
+using Pass.Models;
 using Pass.Views;
 
 namespace Pass.ViewModels
@@ -15,6 +17,7 @@ namespace Pass.ViewModels
     {
         private readonly string password;
         private bool isHidden = true;
+        private IDictionary<string, string> metadata;
 
         public string Name { get; }
 
@@ -35,10 +38,11 @@ namespace Pass.ViewModels
         public ICommand CopyToClipboard =>
             new RelayCommand(() => Application.Current.Clipboard.SetTextAsync(password), () => true);
 
-        public PasswordViewModel(string name, string password)
+        public PasswordViewModel(Password password)
         {
-            Name = name;
-            this.password = password;
+            Name = password.Name;
+            this.password = password.Value;
+            metadata = password.Metadata;
         }
 
         private static T Resource<T>(string key) where T : class =>
