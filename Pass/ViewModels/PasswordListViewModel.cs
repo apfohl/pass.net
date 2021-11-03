@@ -111,7 +111,7 @@ namespace Pass.ViewModels
                     var metadata = await ReadLines(reader).AggregateAsync(new Dictionary<string, string>(),
                         (dictionary, line) =>
                         {
-                            ParseLine(line).Match(tuple => dictionary.Add(tuple.key, tuple.value), () => { });
+                            ParseLine(line).Match(tuple => dictionary.Add(tuple.key.ToLower(), tuple.value), () => { });
                             return dictionary;
                         });
 
@@ -119,14 +119,14 @@ namespace Pass.ViewModels
                 });
         }
 
+        private static async Task<Maybe<string>> ReadPassword(TextReader reader) =>
+            (await reader.ReadLineAsync()).ToMaybe();
+
         private static Maybe<(string key, string value)> ParseLine(string line) =>
-            new Regex("^(.+):(.+)$")
+            new Regex("^([^:]*):(.+)$")
                 .MatchInput(line)
                 .Map(match => match.Groups)
                 .Map(groups => (groups[1].Value, groups[2].Value));
-
-        private static async Task<Maybe<string>> ReadPassword(TextReader reader) =>
-            (await reader.ReadLineAsync()).ToMaybe();
 
         private static async IAsyncEnumerable<string> ReadLines(TextReader reader)
         {
