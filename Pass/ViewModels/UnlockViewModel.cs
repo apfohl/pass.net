@@ -1,5 +1,7 @@
 using System;
 using System.Windows.Input;
+using Avalonia.Controls.Shapes;
+using Avalonia.Media;
 using JetBrains.Annotations;
 using Pass.Components.Binding;
 using Pass.Components.Commands;
@@ -27,6 +29,8 @@ namespace Pass.ViewModels
         }
 
         public ICommand Unlock => unlock;
+
+        public int SpinnerSize => 100;
 
         public UnlockViewModel(MessageBus messageBus)
         {

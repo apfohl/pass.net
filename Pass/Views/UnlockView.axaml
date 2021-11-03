@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Pass.ViewModels"
+             xmlns:views="clr-namespace:Pass.Views"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance vm:UnlockViewModel, IsDesignTimeCreatable=True}"
              x:Class="Pass.Views.UnlockView">
@@ -37,8 +38,6 @@
                 Command="{Binding Unlock}"
                 IsDefault="True" />
 
-        <!-- <Rectangle Grid.Column="3" Classes="red" /> -->
-
-        <Path Grid.Column="4" Data="M0,0 A10,10 0 1 0 5,-5" Stroke="DarkBlue" StrokeThickness="2" />
+        <views:Spinner Grid.Column="3" Size="{Binding SpinnerSize}" />
     </Grid>
 </UserControl>
