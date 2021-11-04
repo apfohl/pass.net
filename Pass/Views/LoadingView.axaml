@@ -1,0 +1,13 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:Pass.ViewModels"
+             xmlns:controls="clr-namespace:Pass.Controls"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance viewModels:LoadingViewModel, IsDesignTimeCreatable=False}"
+             x:Class="Pass.Views.LoadingView">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <controls:ProgressSpinner Diameter="50" Thickness="2" Color="CornflowerBLue" Cap="Round" />
+    </Grid>
+</UserControl>

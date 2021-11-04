@@ -1,7 +1,5 @@
 using System;
 using System.Windows.Input;
-using Avalonia.Controls.Shapes;
-using Avalonia.Media;
 using JetBrains.Annotations;
 using Pass.Components.Binding;
 using Pass.Components.Commands;

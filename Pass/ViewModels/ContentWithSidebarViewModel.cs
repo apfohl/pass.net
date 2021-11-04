@@ -36,6 +36,9 @@ namespace Pass.ViewModels
         [UsedImplicitly]
         public void Handle(SelectedPasswordChanged message) => Content = message.ViewModel;
 
+        [UsedImplicitly]
+        public void Handle(PasswordLoading message) => Content = new LoadingViewModel();
+
         public void Dispose() => subscriptions.ForEach(d => d.Dispose());
     }
 }

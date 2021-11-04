@@ -21,6 +21,8 @@ namespace Pass.ViewModels
 {
     public record SelectedPasswordChanged(Bindable ViewModel);
 
+    public record PasswordLoading;
+
     [View(typeof(PasswordListView))]
     public sealed class PasswordListViewModel : Bindable, IDisposable
     {
@@ -63,11 +65,16 @@ namespace Pass.ViewModels
 
             subscriptions.Add(searchString.Changed.Subscribe(_ => OnPropertyChanged(nameof(Passwords))));
             subscriptions.Add(selectedPassword.Skip(1).Where(p => p != null)
-                .SelectMany(async p => (await DecryptedPassword(p.Name))
-                    .Match(
-                        async password =>
-                            await messageBus.Publish(new SelectedPasswordChanged(new PasswordViewModel(password))),
-                        () => Task.CompletedTask))
+                .SelectMany(async p =>
+                {
+                    await messageBus.Publish(new PasswordLoading());
+                    
+                    return (await DecryptedPassword(p.Name))
+                        .Match(
+                            async password =>
+                                await messageBus.Publish(new SelectedPasswordChanged(new PasswordViewModel(password))),
+                            () => Task.CompletedTask);
+                })
                 .Subscribe());
         }
 
