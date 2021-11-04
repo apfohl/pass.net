@@ -3,7 +3,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Pass.ViewModels"
-             xmlns:views="clr-namespace:Pass.Views"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance vm:UnlockViewModel, IsDesignTimeCreatable=True}"
              x:Class="Pass.Views.UnlockView">
@@ -24,7 +23,7 @@
             </Style.Animations>
         </Style>
     </UserControl.Styles>
-    <Grid ColumnDefinitions="*,10,Auto,Auto,Auto"
+    <Grid ColumnDefinitions="*,10,Auto"
           VerticalAlignment="Center"
           HorizontalAlignment="Stretch"
           Margin="10 0 10 0">
@@ -37,7 +36,5 @@
                 Content="Unlock"
                 Command="{Binding Unlock}"
                 IsDefault="True" />
-
-        <views:Spinner Grid.Column="3" Size="{Binding SpinnerSize}" />
     </Grid>
 </UserControl>

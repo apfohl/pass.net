@@ -1,0 +1,41 @@
+<ContentControl xmlns="https://github.com/avaloniaui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:converters="clr-namespace:Pass.Converters"
+                xmlns:controls="clr-namespace:Pass.Controls"
+                x:Class="Pass.Controls.ProgressSpinner">
+    <ContentControl.Styles>
+        <Style Selector="controls|ProgressSpinner">
+            <Style.Animations>
+                <Animation Duration="0:0:1" IterationCount="INFINITE">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="RotateTransform.Angle" Value="0.0" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="RotateTransform.Angle" Value="360.0" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Ellipse
+                        Width="{TemplateBinding Diameter}"
+                        Height="{TemplateBinding Diameter}"
+                        Stroke="{TemplateBinding Color}"
+                        StrokeThickness="{TemplateBinding Thickness}"
+                        StrokeLineCap="{TemplateBinding Cap}">
+                        <Ellipse.Resources>
+                            <converters:DiameterAndThicknessToStrokeDashArrayConverter
+                                x:Key="DiameterAndThicknessToStrokeDashArrayConverter" />
+                        </Ellipse.Resources>
+                        <Ellipse.StrokeDashArray>
+                            <MultiBinding Converter="{StaticResource DiameterAndThicknessToStrokeDashArrayConverter}">
+                                <TemplateBinding Property="Diameter" />
+                                <TemplateBinding Property="Thickness" />
+                            </MultiBinding>
+                        </Ellipse.StrokeDashArray>
+                    </Ellipse>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+    </ContentControl.Styles>
+</ContentControl>

@@ -10,6 +10,7 @@
         <entry key="Pass/Views/MainView.axaml" value="Pass/Pass.csproj" />
         <entry key="Pass/Views/PasswordListView.axaml" value="Pass/Pass.csproj" />
         <entry key="Pass/Views/PasswordView.axaml" value="Pass/Pass.csproj" />
+        <entry key="Pass/Views/ProgressSpinner.axaml" value="Pass/Pass.csproj" />
         <entry key="Pass/Views/Spinner.axaml" value="Pass/Pass.csproj" />
         <entry key="Pass/Views/TextView.axaml" value="Pass/Pass.csproj" />
         <entry key="Pass/Views/UnlockView.axaml" value="Pass/Pass.csproj" />

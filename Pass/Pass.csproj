@@ -14,4 +14,10 @@
         <PackageReference Include="JetBrains.Annotations" Version="2021.2.0" />
         <PackageReference Include="System.Linq.Async" Version="5.0.0" />
     </ItemGroup>
+    <ItemGroup>
+      <Compile Update="Controls\ProgressSpinner.axaml.cs">
+        <DependentUpon>ProgressSpinner.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
 </Project>
