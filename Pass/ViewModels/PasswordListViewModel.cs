@@ -68,7 +68,7 @@ namespace Pass.ViewModels
                 .SelectMany(async p =>
                 {
                     await messageBus.Publish(new PasswordLoading());
-                    
+
                     return (await DecryptedPassword(p.Name))
                         .Match(
                             async password =>

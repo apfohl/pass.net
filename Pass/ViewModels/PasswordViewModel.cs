@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia;
@@ -12,16 +13,21 @@ using Pass.Views;
 
 namespace Pass.ViewModels
 {
+    public record Meta(string Key, string Value);
+
     [View(typeof(PasswordView))]
     public sealed class PasswordViewModel : Bindable
     {
         private readonly string password;
         private bool isHidden = true;
-        private IDictionary<string, string> metadata;
+        private readonly IDictionary<string, string> metadata;
 
         public string Name { get; }
 
         public string Password => isHidden ? "●●●●●●" : password;
+
+        public IEnumerable<Meta> Metadata =>
+            metadata.Select(pair => new Meta(pair.Key, pair.Value)).ToList();
 
         public Geometry ButtonIcon => isHidden
             ? Resource<Geometry>("EyeHideRegular")
