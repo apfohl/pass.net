@@ -34,7 +34,7 @@ namespace Pass.ViewModels
         }
 
         [UsedImplicitly]
-        public void Handle(SelectedPasswordChanged message) => Content = message.ViewModel;
+        public void Handle(SelectedPasswordChanged message) => Content = new PasswordViewModel(message.Password);
 
         [UsedImplicitly]
         public void Handle(PasswordLoading message) => Content = new LoadingViewModel();
