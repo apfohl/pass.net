@@ -15,34 +15,21 @@ namespace Pass.ViewModels
     [View(typeof(PasswordView))]
     public sealed class PasswordViewModel : Bindable
     {
-        private readonly string password;
-        private bool isHidden = true;
         private readonly IDictionary<string, string> metadata;
 
         public string Name { get; }
-
-        public string Password => isHidden ? "●●●●●●" : password;
-
-        public bool IsHidden
-        {
-            get => isHidden;
-            set
-            {
-                isHidden = value;
-                OnPropertyChanged(nameof(Password));
-            }
-        }
+        public string Password { get; }
 
         public IEnumerable<Meta> Metadata =>
             metadata.Select(pair => new Meta(pair.Key, pair.Value)).ToList();
 
         public ICommand CopyToClipboard =>
-            new RelayCommand(() => Application.Current.Clipboard.SetTextAsync(password), () => true);
+            new RelayCommand(() => Application.Current.Clipboard.SetTextAsync(Password), () => true);
 
         public PasswordViewModel(Password password)
         {
             Name = password.Name;
-            this.password = password.Value;
+            Password = password.Value;
             metadata = password.Metadata;
         }
     }
