@@ -15,7 +15,7 @@
         <TextBox.InnerRightContent>
             <Button Command="{Binding Unlock}"
                     Content="Unlock"
-                    IsDefault="True" />
+                    IsDefault="True"/>
         </TextBox.InnerRightContent>
     </TextBox>
 </UserControl>

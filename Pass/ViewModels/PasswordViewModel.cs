@@ -1,10 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Media;
 using Pass.Components.Binding;
 using Pass.Components.Commands;
 using Pass.Components.ViewMapping;
@@ -26,20 +23,18 @@ namespace Pass.ViewModels
 
         public string Password => isHidden ? "●●●●●●" : password;
 
+        public bool IsHidden
+        {
+            get => isHidden;
+            set
+            {
+                isHidden = value;
+                OnPropertyChanged(nameof(Password));
+            }
+        }
+
         public IEnumerable<Meta> Metadata =>
             metadata.Select(pair => new Meta(pair.Key, pair.Value)).ToList();
-
-        public Geometry ButtonIcon => isHidden
-            ? Resource<Geometry>("EyeHideRegular")
-            : Resource<Geometry>("EyeShowRegular");
-
-        public ICommand ToggleHide => new RelayCommand(() =>
-        {
-            isHidden = !isHidden;
-            OnPropertyChanged(nameof(Password));
-            OnPropertyChanged(nameof(ButtonIcon));
-            return Task.CompletedTask;
-        }, () => true);
 
         public ICommand CopyToClipboard =>
             new RelayCommand(() => Application.Current.Clipboard.SetTextAsync(password), () => true);
@@ -50,8 +45,5 @@ namespace Pass.ViewModels
             this.password = password.Value;
             metadata = password.Metadata;
         }
-
-        private static T Resource<T>(string key) where T : class =>
-            Application.Current.FindResource(key) as T;
     }
 }
