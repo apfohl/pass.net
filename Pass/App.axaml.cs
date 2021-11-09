@@ -30,7 +30,7 @@ namespace Pass
             {
                 var fileSystem = OS.FileSystem();
                 var passwordDirectory = fileSystem
-                    .OpenDirectory(Path.Combine(UserProfilePath, ".password-store"))
+                    .OpenDirectory(Path.Combine(UserProfilePath, "Developer", "pass-example"))
                     .Match(d => d, () => throw new ArgumentException("Pass directory is missing!"));
                 var keyRepository = KeyRepository(fileSystem);
                 var messageBus = new MessageBus();

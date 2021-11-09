@@ -21,6 +21,7 @@ namespace Pass.Components.FileSystem
                 {
                     using var inputStream = File.OpenRead(s);
                     return OpenPgp.Decrypt(inputStream, keyStream, password);
+                    // return BouncyCastle.DecryptFile(inputStream, keyStream, password.ToCharArray(), string.Empty);
                 });
 
         public async Task Write(Func<Stream, Task> writeAction, Stream keyStream, string fingerprint)
