@@ -10,7 +10,7 @@
         <PackageReference Include="Avalonia.Desktop" Version="0.10.10" />
         <PackageReference Include="Avalonia.Diagnostics" Version="0.10.10" />
         <PackageReference Include="BouncyCastle.OpenPgp" Version="1.8.1.1" />
-        <PackageReference Include="bridgefield.MonadicBits" Version="0.3.0" />
+        <PackageReference Include="bridgefield.MonadicBits" Version="0.4.0" />
         <PackageReference Include="bridgefield.PersistentBits" Version="0.1.1" />
         <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
         <PackageReference Include="System.Linq.Async" Version="5.0.0" />

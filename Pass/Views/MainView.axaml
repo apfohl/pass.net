@@ -10,6 +10,8 @@
         WindowStartupLocation="CenterScreen"
         MinWidth="800"
         MinHeight="600"
+        Width="800"
+        Height="600"
         CanResize="True">
     <ContentControl Content="{Binding Content}" />
 </Window>
