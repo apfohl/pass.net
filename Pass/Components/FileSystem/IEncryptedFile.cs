@@ -4,14 +4,13 @@ using System.Threading.Tasks;
 using Bridgefield.PersistentBits.FileSystem;
 using MonadicBits;
 
-namespace Pass.Components.FileSystem
+namespace Pass.Components.FileSystem;
+
+public interface IEncryptedFile : IFileSystemEntry
 {
-    public interface IEncryptedFile : IFileSystemEntry
-    {
-        bool Exists();
+    bool Exists();
 
-        Maybe<Stream> OpenRead(Stream keyStream, string password);
+    Maybe<Stream> OpenRead(Stream keyStream, string password);
 
-        Task Write(Func<Stream, Task> writeAction, Stream keyStream, string fingerprint);
-    }
+    Task Write(Func<Stream, Task> writeAction, Stream keyStream, string fingerprint);
 }

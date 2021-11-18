@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace Pass.Components.Dialog
+namespace Pass.Components.Dialog;
+
+public interface IDialogPresenter
 {
-    public interface IDialogPresenter
-    {
-        Task Show(IDialog dialog);
-    }
+    Task Show(IDialog dialog);
 }

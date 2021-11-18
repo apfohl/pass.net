@@ -2,15 +2,14 @@ using System;
 using System.Collections.Generic;
 using Pass.Components.Binding;
 
-namespace Pass.Components.Dialog
+namespace Pass.Components.Dialog;
+
+public interface IDialog
 {
-    public interface IDialog
-    {
-        string Title { get; }
-        public double MinWidth { get; }
-        public double MinHeight { get; }
-        public Bindable Content { get; }
-        public IEnumerable<object> Buttons { get; }
-        event EventHandler Closed;
-    }
+    string Title { get; }
+    public double MinWidth { get; }
+    public double MinHeight { get; }
+    public Bindable Content { get; }
+    public IEnumerable<object> Buttons { get; }
+    event EventHandler Closed;
 }

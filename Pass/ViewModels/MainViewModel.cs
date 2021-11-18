@@ -10,52 +10,51 @@ using Pass.Components.MessageBus;
 using Pass.Components.ViewMapping;
 using Pass.Views;
 
-namespace Pass.ViewModels
+namespace Pass.ViewModels;
+
+using static Functional;
+
+[View(typeof(MainView))]
+public sealed class MainViewModel : Bindable, IDisposable
 {
-    using static Functional;
+    private readonly IDirectory passwordDirectory;
+    private readonly KeyRepository keyRepository;
+    private readonly MessageBus messageBus;
+    private readonly Stack<Bindable> contentStack = new();
 
-    [View(typeof(MainView))]
-    public sealed class MainViewModel : Bindable, IDisposable
+    public Bindable Content => contentStack.Peek();
+
+    public MainViewModel(IDirectory passwordDirectory, KeyRepository keyRepository, MessageBus messageBus)
     {
-        private readonly IDirectory passwordDirectory;
-        private readonly KeyRepository keyRepository;
-        private readonly MessageBus messageBus;
-        private readonly Stack<Bindable> contentStack = new();
+        this.passwordDirectory = passwordDirectory;
+        this.keyRepository = keyRepository;
+        this.messageBus = messageBus;
 
-        public Bindable Content => contentStack.Peek();
+        contentStack.Push(new UnlockViewModel(messageBus));
 
-        public MainViewModel(IDirectory passwordDirectory, KeyRepository keyRepository, MessageBus messageBus)
-        {
-            this.passwordDirectory = passwordDirectory;
-            this.keyRepository = keyRepository;
-            this.messageBus = messageBus;
-
-            contentStack.Push(new UnlockViewModel(messageBus));
-
-            messageBus.Subscribe(this);
-        }
-
-        [UsedImplicitly]
-        public void Handle(Unlocked message)
-        {
-            keyRepository.Password = message.Password;
-
-            contentStack.Push(new ContentWithSidebarViewModel(
-                new TextViewModel("No password selected!"),
-                new PasswordListViewModel(new PasswordRepository(passwordDirectory), messageBus, keyRepository),
-                messageBus));
-
-            OnPropertyChanged(nameof(Content));
-        }
-
-        [UsedImplicitly]
-        public void Handle(Locked message)
-        {
-            keyRepository.Password = Nothing;
-            contentStack.Pop();
-            OnPropertyChanged(nameof(Content));
-        }
-
-        public void Dispose() => messageBus.Unsubscribe(this);
+        messageBus.Subscribe(this);
     }
+
+    [UsedImplicitly]
+    public void Handle(Unlocked message)
+    {
+        keyRepository.Password = message.Password;
+
+        contentStack.Push(new ContentWithSidebarViewModel(
+            new TextViewModel("No password selected!"),
+            new PasswordListViewModel(new PasswordRepository(passwordDirectory), messageBus, keyRepository),
+            messageBus));
+
+        OnPropertyChanged(nameof(Content));
+    }
+
+    [UsedImplicitly]
+    public void Handle(Locked message)
+    {
+        keyRepository.Password = Nothing;
+        contentStack.Pop();
+        OnPropertyChanged(nameof(Content));
+    }
+
+    public void Dispose() => messageBus.Unsubscribe(this);
 }

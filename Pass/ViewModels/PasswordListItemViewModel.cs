@@ -1,11 +1,10 @@
 ﻿using Pass.Components.Binding;
 
-namespace Pass.ViewModels
-{
-    public sealed class PasswordListItemViewModel : Bindable
-    {
-        public string Name { get; }
+namespace Pass.ViewModels;
 
-        public PasswordListItemViewModel(string name) => Name = name;
-    }
+public sealed class PasswordListItemViewModel : Bindable
+{
+    public string Name { get; }
+
+    public PasswordListItemViewModel(string name) => Name = name;
 }

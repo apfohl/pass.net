@@ -2,14 +2,13 @@
 using System.Threading.Tasks;
 using Avalonia.Controls;
 
-namespace Pass.Components.Dialog
+namespace Pass.Components.Dialog;
+
+public static class WindowExtensions
 {
-    public static class WindowExtensions
+    public static Task ShowDialog(this Window window, Window parent, Action<Window> onShowDialog)
     {
-        public static Task ShowDialog(this Window window, Window parent, Action<Window> onShowDialog)
-        {
-            onShowDialog(window);
-            return window.ShowDialog(parent);
-        }
+        onShowDialog(window);
+        return window.ShowDialog(parent);
     }
 }

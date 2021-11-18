@@ -7,52 +7,51 @@ using Pass.Components.MessageBus;
 using Pass.Components.ViewMapping;
 using Pass.Views;
 
-namespace Pass.ViewModels
+namespace Pass.ViewModels;
+
+public sealed record Unlocked(string Password);
+
+public sealed record Locked;
+
+[View(typeof(UnlockView))]
+public sealed class UnlockViewModel : Bindable, IDisposable
 {
-    public sealed record Unlocked(string Password);
+    private readonly MessageBus messageBus;
+    private readonly ReactiveProperty<string> password = new(string.Empty);
+    private readonly RelayCommand unlock;
 
-    public sealed record Locked;
-
-    [View(typeof(UnlockView))]
-    public sealed class UnlockViewModel : Bindable, IDisposable
+    public string Password
     {
-        private readonly MessageBus messageBus;
-        private readonly ReactiveProperty<string> password = new(string.Empty);
-        private readonly RelayCommand unlock;
+        get => password.Value;
+        set => password.Value = value;
+    }
 
-        public string Password
-        {
-            get => password.Value;
-            set => password.Value = value;
-        }
+    public ICommand Unlock => unlock;
 
-        public ICommand Unlock => unlock;
+    public int SpinnerSize => 100;
 
-        public int SpinnerSize => 100;
-
-        public UnlockViewModel(MessageBus messageBus)
-        {
-            this.messageBus = messageBus;
+    public UnlockViewModel(MessageBus messageBus)
+    {
+        this.messageBus = messageBus;
             
-            unlock = new RelayCommand(
-                () => messageBus.Publish(new Unlocked(Password)),
-                () => !string.IsNullOrEmpty(Password),
-                password.Changed);
+        unlock = new RelayCommand(
+            () => messageBus.Publish(new Unlocked(Password)),
+            () => !string.IsNullOrEmpty(Password),
+            password.Changed);
             
-            messageBus.Subscribe(this);
-        }
+        messageBus.Subscribe(this);
+    }
 
-        public void Dispose()
-        {
-            unlock.Dispose();
-            messageBus.Unsubscribe(this);
-        }
+    public void Dispose()
+    {
+        unlock.Dispose();
+        messageBus.Unsubscribe(this);
+    }
 
-        [UsedImplicitly]
-        public void Handle(Locked message)
-        {
-            password.Value = string.Empty;
-            OnPropertyChanged(nameof(Password));
-        }
+    [UsedImplicitly]
+    public void Handle(Locked message)
+    {
+        password.Value = string.Empty;
+        OnPropertyChanged(nameof(Password));
     }
 }
