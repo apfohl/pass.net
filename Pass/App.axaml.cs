@@ -45,7 +45,7 @@ public sealed class App : Application
 
     private static KeyRepository KeyRepository(IFileSystem fileSystem)
     {
-        var directory = fileSystem.OpenDirectory(Path.Combine(UserProfilePath, "Documents"))
+        var directory = fileSystem.OpenDirectory(Path.Combine(UserProfilePath, "documents"))
             .Match(d => d, () => throw new ArgumentException("Key directory is missing!"));
 
         return new KeyRepository
