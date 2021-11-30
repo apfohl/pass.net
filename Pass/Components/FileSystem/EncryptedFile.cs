@@ -3,15 +3,20 @@ using System.IO;
 using System.Threading.Tasks;
 using MonadicBits;
 using Pass.Components.Encryption;
+using Pass.Components.Extensions;
 
 namespace Pass.Components.FileSystem;
 
 public sealed class EncryptedFile : IEncryptedFile
 {
     public string Path { get; }
-    public string Name => System.IO.Path.GetFileName(Path);
+    public string Name { get; }
 
-    public EncryptedFile(string path) => Path = path;
+    public EncryptedFile(string path)
+    {
+        Path = path;
+        Name = System.IO.Path.GetFileName(path).RemoveFromEnd(".gpg");
+    }
 
     public bool Exists() => File.Exists(Path);
 
@@ -21,7 +26,6 @@ public sealed class EncryptedFile : IEncryptedFile
             {
                 using var inputStream = File.OpenRead(s);
                 return OpenPgp.Decrypt(inputStream, keyStream, password);
-                // return BouncyCastle.DecryptFile(inputStream, keyStream, password.ToCharArray(), string.Empty);
             });
 
     public async Task Write(Func<Stream, Task> writeAction, Stream keyStream, string fingerprint)
@@ -32,7 +36,7 @@ public sealed class EncryptedFile : IEncryptedFile
         await keyRingBundle
             .FindKey(fingerprint)
             .Match(
-                async key => { await OpenPgp.Encrypt(writeAction, outputStream, key, Name); },
+                async key => await OpenPgp.Encrypt(writeAction, outputStream, key, Name),
                 () => Task.FromException(new Exception("No public key found!")));
     }
 }

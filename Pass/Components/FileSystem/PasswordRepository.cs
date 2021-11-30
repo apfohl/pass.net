@@ -17,10 +17,10 @@ public sealed class PasswordRepository
     public Maybe<IFile> Fingerprint() =>
         rootDirectory.Files.SingleOrNothing(file => file.Name == ".gpg-id");
 
-    public Maybe<IEncryptedFile> Find(string name) =>
-        FindAll().SingleOrNothing(file => file.Name == name);
+    public Maybe<IEncryptedFile> Lookup(string name) =>
+        All().SingleOrNothing(file => file.Name == name);
 
-    public IEnumerable<IEncryptedFile> FindAll() =>
+    public IEnumerable<IEncryptedFile> All() =>
         Directory
             .EnumerateFiles(rootDirectory.Path)
             .Where(IsPasswordFile)

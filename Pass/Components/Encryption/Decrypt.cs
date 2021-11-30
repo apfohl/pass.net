@@ -15,7 +15,8 @@ public static class Decrypt
     public static Task<Maybe<Password>> DecryptedPassword(PasswordRepository passwordRepository,
         KeyRepository keyRepository, string name)
     {
-        var stream = from file in passwordRepository.Find($"{name}.gpg")
+        var stream =
+            from file in passwordRepository.Lookup(name)
             from keyStream in keyRepository.PrivateKey.Bind(keyFile => keyFile.OpenRead())
             from password in keyRepository.Password
             from decryptedStream in DecryptedStream(file, keyStream, password)

@@ -31,9 +31,9 @@ public sealed class PasswordListViewModel : Bindable, IDisposable
 
     public IEnumerable<PasswordListItemViewModel> Passwords =>
         passwordRepository
-            .FindAll()
+            .All()
             .OrderBy(file => file.Name)
-            .Select(file => file.Name.RemoveFromEnd(".gpg"))
+            .Select(file => file.Name)
             .Where(name => name.ContainsString(SearchString))
             .Select(name => new PasswordListItemViewModel(name))
             .ToList();
