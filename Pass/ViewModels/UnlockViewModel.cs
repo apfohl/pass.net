@@ -1,9 +1,8 @@
 using System;
 using System.Windows.Input;
-using JetBrains.Annotations;
+using bridgefield.FoundationalBits;
 using Pass.Components.Binding;
 using Pass.Components.Commands;
-using Pass.Components.MessageBus;
 using Pass.Components.ViewMapping;
 using Pass.Views;
 
@@ -14,9 +13,9 @@ public sealed record Unlocked(string Password);
 public sealed record Locked;
 
 [View(typeof(UnlockView))]
-public sealed class UnlockViewModel : Bindable, IDisposable
+public sealed class UnlockViewModel : Bindable, IDisposable, IHandle<Locked>
 {
-    private readonly MessageBus messageBus;
+    private readonly IMessageBus messageBus;
     private readonly ReactiveProperty<string> password = new(string.Empty);
     private readonly RelayCommand unlock;
 
@@ -30,15 +29,15 @@ public sealed class UnlockViewModel : Bindable, IDisposable
 
     public int SpinnerSize => 100;
 
-    public UnlockViewModel(MessageBus messageBus)
+    public UnlockViewModel(IMessageBus messageBus)
     {
         this.messageBus = messageBus;
-            
+
         unlock = new RelayCommand(
             () => messageBus.Publish(new Unlocked(Password)),
             () => !string.IsNullOrEmpty(Password),
             password.Changed);
-            
+
         messageBus.Subscribe(this);
     }
 
@@ -48,7 +47,6 @@ public sealed class UnlockViewModel : Bindable, IDisposable
         messageBus.Unsubscribe(this);
     }
 
-    [UsedImplicitly]
     public void Handle(Locked message)
     {
         password.Value = string.Empty;

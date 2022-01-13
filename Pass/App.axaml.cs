@@ -4,12 +4,12 @@ using System.Linq;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using bridgefield.FoundationalBits;
 using Bridgefield.PersistentBits;
 using Bridgefield.PersistentBits.FileSystem;
 using MonadicBits;
 using Pass.Components.Encryption;
 using Pass.Components.Extensions;
-using Pass.Components.MessageBus;
 using Pass.ViewModels;
 using Pass.Views;
 
@@ -33,7 +33,7 @@ public sealed class App : Application
                 .OpenDirectory(Path.Combine(UserProfilePath, ".password-store"))
                 .Match(d => d, () => throw new ArgumentException("Pass directory is missing!"));
             var keyRepository = KeyRepository(fileSystem);
-            var messageBus = new MessageBus();
+            var messageBus = MessageBus.Create();
 
             var mainWindow = new MainView();
             desktop.MainWindow = mainWindow;

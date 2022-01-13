@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using MonadicBits;
 using Org.BouncyCastle.Bcpg;
 using Org.BouncyCastle.Bcpg.OpenPgp;
-using Pass.Components.Extensions;
 
 namespace Pass.Components.Encryption;
 

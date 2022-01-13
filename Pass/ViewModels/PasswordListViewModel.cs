@@ -4,12 +4,12 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using bridgefield.FoundationalBits;
 using Pass.Components.Binding;
 using Pass.Components.Commands;
 using Pass.Components.Encryption;
 using Pass.Components.Extensions;
 using Pass.Components.FileSystem;
-using Pass.Components.MessageBus;
 using Pass.Components.ViewMapping;
 using Pass.Models;
 using Pass.Views;
@@ -24,7 +24,7 @@ public record PasswordLoading;
 public sealed class PasswordListViewModel : Bindable, IDisposable
 {
     private readonly PasswordRepository passwordRepository;
-    private readonly MessageBus messageBus;
+    private readonly IMessageBus messageBus;
     private readonly ReactiveProperty<string> searchString = new(string.Empty);
     private readonly ReactiveProperty<PasswordListItemViewModel> selectedPassword = new();
     private readonly List<IDisposable> subscriptions = new();
@@ -54,7 +54,7 @@ public sealed class PasswordListViewModel : Bindable, IDisposable
 
     public PasswordListViewModel(
         PasswordRepository passwordRepository,
-        MessageBus messageBus,
+        IMessageBus messageBus,
         KeyRepository keyRepository)
     {
         this.passwordRepository = passwordRepository;

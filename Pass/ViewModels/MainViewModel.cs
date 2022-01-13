@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using bridgefield.FoundationalBits;
 using Bridgefield.PersistentBits.FileSystem;
-using JetBrains.Annotations;
 using MonadicBits;
 using Pass.Components.Binding;
 using Pass.Components.Encryption;
 using Pass.Components.FileSystem;
-using Pass.Components.MessageBus;
 using Pass.Components.ViewMapping;
 using Pass.Views;
 
@@ -15,16 +14,16 @@ namespace Pass.ViewModels;
 using static Functional;
 
 [View(typeof(MainView))]
-public sealed class MainViewModel : Bindable, IDisposable
+public sealed class MainViewModel : Bindable, IDisposable, IHandle<Unlocked>, IHandle<Locked>
 {
     private readonly IDirectory passwordDirectory;
     private readonly KeyRepository keyRepository;
-    private readonly MessageBus messageBus;
+    private readonly IMessageBus messageBus;
     private readonly Stack<Bindable> contentStack = new();
 
     public Bindable Content => contentStack.Peek();
 
-    public MainViewModel(IDirectory passwordDirectory, KeyRepository keyRepository, MessageBus messageBus)
+    public MainViewModel(IDirectory passwordDirectory, KeyRepository keyRepository, IMessageBus messageBus)
     {
         this.passwordDirectory = passwordDirectory;
         this.keyRepository = keyRepository;
@@ -35,7 +34,6 @@ public sealed class MainViewModel : Bindable, IDisposable
         messageBus.Subscribe(this);
     }
 
-    [UsedImplicitly]
     public void Handle(Unlocked message)
     {
         keyRepository.Password = message.Password;
@@ -48,7 +46,6 @@ public sealed class MainViewModel : Bindable, IDisposable
         OnPropertyChanged(nameof(Content));
     }
 
-    [UsedImplicitly]
     public void Handle(Locked message)
     {
         keyRepository.Password = Nothing;
