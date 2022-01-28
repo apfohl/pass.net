@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MonadicBits;
+using Pass.Components.Extensions;
 
 namespace Pass.Components.Threading;
 
@@ -16,17 +17,9 @@ public static class Dispatcher
         var taskCompletionSource = new TaskCompletionSource();
 
         Dispatch((Action) (() => func().ContinueWith(
-            task =>
-            {
-                if (task.IsFaulted)
-                {
-                    taskCompletionSource.SetException(task.Exception!);
-                }
-                else
-                {
-                    taskCompletionSource.SetResult();
-                }
-            })));
+            task => task.IsFaulted
+                .OnTrue(() => taskCompletionSource.SetException(task.Exception!))
+                .OnFalse(() => taskCompletionSource.SetResult()))));
 
         return taskCompletionSource.Task;
     }
@@ -34,17 +27,11 @@ public static class Dispatcher
     public static Task<T> Dispatch<T>(Func<Task<T>> func)
     {
         var taskCompletionSource = new TaskCompletionSource<T>();
-        Dispatch((Action) (() => func().ContinueWith(task =>
-        {
-            if (task.IsFaulted)
-            {
-                taskCompletionSource.SetException(task.Exception!);
-            }
-            else
-            {
-                taskCompletionSource.SetResult(task.Result);
-            }
-        })));
+
+        Dispatch((Action) (() => func().ContinueWith(
+            task => task.IsFaulted
+                .OnTrue(() => taskCompletionSource.SetException(task.Exception!))
+                .OnFalse(() => taskCompletionSource.SetResult(task.Result)))));
 
         return taskCompletionSource.Task;
     }

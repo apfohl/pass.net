@@ -36,7 +36,7 @@ public sealed class EncryptedFile : IEncryptedFile
         await keyRingBundle
             .FindKey(fingerprint)
             .Match(
-                async key => await OpenPgp.Encrypt(writeAction, outputStream, key, Name),
+                key => OpenPgp.Encrypt(writeAction, outputStream, key, Name),
                 () => Task.FromException(new Exception("No public key found!")));
     }
 }
