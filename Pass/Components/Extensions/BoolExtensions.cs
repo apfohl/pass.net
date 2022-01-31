@@ -6,107 +6,88 @@ namespace Pass.Components.Extensions;
 
 using static Functional;
 
-public interface ITrue
+public readonly struct FluentTrue
 {
-    void OnFalse(Action action);
-    Task OnFalse(Func<Task> func);
+    private readonly bool value;
+
+    public FluentTrue(bool value) => this.value = value;
+
+    public void OnFalse(Action action)
+    {
+        if (!value)
+        {
+            action();
+        }
+    }
+
+    public Task OnFalse(Func<Task> func) =>
+        !value ? func() : Task.CompletedTask;
 }
 
-public interface IFalse
+public readonly struct FluentFalse
 {
-    void OnTrue(Action action);
-    Task OnTrue(Func<Task> func);
+    private readonly bool value;
+
+    public FluentFalse(bool value) => this.value = value;
+
+    public void OnTrue(Action action)
+    {
+        if (value)
+        {
+            action();
+        }
+    }
+
+    public Task OnTrue(Func<Task> func) =>
+        value ? func() : Task.CompletedTask;
 }
 
 public static class BoolExtensions
 {
-    private sealed record FluentBool(bool IsTrue) : ITrue, IFalse
-    {
-        public void OnFalse(Action action)
-        {
-            if (IsTrue)
-            {
-                throw new Exception($"Not allowed on {nameof(ITrue)}!");
-            }
-
-            action();
-        }
-
-        public Task OnFalse(Func<Task> func)
-        {
-            if (IsTrue)
-            {
-                throw new Exception($"Not allowed on {nameof(ITrue)}!");
-            }
-
-            return func();
-        }
-
-        public void OnTrue(Action action)
-        {
-            if (!IsTrue)
-            {
-                throw new Exception($"Not allowed on {nameof(ITrue)}!");
-            }
-
-            action();
-        }
-
-        public Task OnTrue(Func<Task> func)
-        {
-            if (!IsTrue)
-            {
-                throw new Exception($"Not allowed on {nameof(ITrue)}!");
-            }
-
-            return func();
-        }
-    }
-
-    public static ITrue OnTrue(this bool value, Action action)
+    public static FluentTrue OnTrue(this bool value, Action action)
     {
         if (value)
         {
             action();
         }
 
-        return new FluentBool(true);
+        return new FluentTrue(value);
     }
 
-    public static IFalse OnFalse(this bool value, Action action)
+    public static FluentFalse OnFalse(this bool value, Action action)
     {
         if (!value)
         {
             action();
         }
 
-        return new FluentBool(false);
+        return new FluentFalse();
     }
 
-    public static async Task<ITrue> OnTrue(this bool value, Func<Task> func)
+    public static async Task<FluentTrue> OnTrue(this bool value, Func<Task> func)
     {
         if (value)
         {
             await func();
         }
 
-        return new FluentBool(true);
+        return new FluentTrue(value);
     }
 
-    public static async Task<IFalse> OnFalse(this bool value, Func<Task> func)
+    public static async Task<FluentFalse> OnFalse(this bool value, Func<Task> func)
     {
         if (!value)
         {
             await func();
         }
 
-        return new FluentBool(false);
+        return new FluentFalse(value);
     }
 
-    public static async Task<ITrue> OnTrue(this Task<bool> value, Func<Task> func) =>
+    public static async Task<FluentTrue> OnTrue(this Task<bool> value, Func<Task> func) =>
         await (await value).OnTrue(func);
 
-    public static async Task<IFalse> OnFalse(this Task<bool> value, Func<Task> func) =>
+    public static async Task<FluentFalse> OnFalse(this Task<bool> value, Func<Task> func) =>
         await (await value).OnFalse(func);
 
     public static Maybe<T> OnTrue<T>(this bool value, Func<T> action) => value ? action() : Nothing;
