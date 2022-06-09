@@ -6,19 +6,19 @@
         <LangVersion>10</LangVersion>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="0.10.10" />
-        <PackageReference Include="Avalonia.Desktop" Version="0.10.10" />
-        <PackageReference Include="Avalonia.Diagnostics" Version="0.10.10" />
+        <PackageReference Include="Avalonia" Version="0.10.15" />
+        <PackageReference Include="Avalonia.Desktop" Version="0.10.15" />
+        <PackageReference Include="Avalonia.Diagnostics" Version="0.10.15" />
         <PackageReference Include="BouncyCastle.OpenPgp" Version="1.8.1.1" />
-        <PackageReference Include="bridgefield.FoundationalBits" Version="0.1.0" />
-        <PackageReference Include="bridgefield.MonadicBits" Version="0.4.0" />
+        <PackageReference Include="bridgefield.FoundationalBits" Version="0.1.2" />
+        <PackageReference Include="bridgefield.MonadicBits" Version="0.4.1" />
         <PackageReference Include="bridgefield.PersistentBits" Version="0.1.1" />
-        <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
+        <PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="6.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.1" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
-        <PackageReference Include="System.Linq.Async" Version="5.0.0" />
+        <PackageReference Include="System.Linq.Async" Version="6.0.1" />
     </ItemGroup>
     <ItemGroup>
       <Compile Update="Controls\ProgressSpinner.axaml.cs">
