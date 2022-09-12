@@ -3,12 +3,12 @@
         <OutputType>WinExe</OutputType>
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>disable</Nullable>
-        <LangVersion>10</LangVersion>
+        <LangVersion>latestmajor</LangVersion>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="0.10.17" />
-        <PackageReference Include="Avalonia.Desktop" Version="0.10.17" />
-        <PackageReference Include="Avalonia.Diagnostics" Version="0.10.17" />
+        <PackageReference Include="Avalonia" Version="0.10.18" />
+        <PackageReference Include="Avalonia.Desktop" Version="0.10.18" />
+        <PackageReference Include="Avalonia.Diagnostics" Version="0.10.18" />
         <PackageReference Include="BouncyCastle.OpenPgp" Version="1.8.1.1" />
         <PackageReference Include="bridgefield.FoundationalBits" Version="0.1.2" />
         <PackageReference Include="bridgefield.MonadicBits" Version="0.4.1" />
